@@ -1,24 +1,21 @@
-import React from "react";
-import styled from "styled-components";
+import { ButtonProps, IconProps } from "@mui/material";
+import { ButtonHTMLAttributes } from "react";
+import * as S from "./styles";
 
-const BotaoEstilizado = styled.button`
-    background: #EB9b00;
-    padding: 16px 32px;
-    border: 2px solid #EB9b00;
-    color: #FFF;
-    font-size: 20px;
-    cursor: pointer;
+interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+    startIcon?: IconProps;
+}
 
-    &:hover {
-        background: #BB7900;
-        border: 2px solid #EB9b00;
-    }
-`
-
-export const Button = () => {
+export default function Button({
+    children,
+    ...props
+}: IButtonProps & ButtonProps) {
     return (
-        <BotaoEstilizado>
-            clique aqui
-        </BotaoEstilizado>
-    )
+        <S.Button
+            fullWidth
+            {...props}
+        >
+            {children}
+        </S.Button>
+    );
 }
