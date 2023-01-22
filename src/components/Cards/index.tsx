@@ -5,6 +5,9 @@ import Button from "../Button"
 import * as S from "./styles"
 
 const Cards = () => {
+
+    const onClick = () => {}
+
     return (
         <Grid
             item 
@@ -61,9 +64,11 @@ const Cards = () => {
                 >
                     <Typography fontSize="22px" fontWeight="600">R$ 29,90</Typography>
 
-                    <Button>
-                        Comprar
-                    </Button>
+                    <Button
+                        onClick={onClick}
+                        tipo="primary"
+                        text="Comprar"
+                    />
                 </Box>
             </S.CardsStyled>
         </Grid>

@@ -1,21 +1,22 @@
-import { ButtonProps, IconProps } from "@mui/material";
-import { ButtonHTMLAttributes } from "react";
 import * as S from "./styles";
 
-interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    startIcon?: IconProps;
+export interface IButtonProps {
+    text?: string;
+    tipo?: "primary" | "secondary";
+    onClick?: () => void;
 }
 
 export default function Button({
-    children,
-    ...props
-}: IButtonProps & ButtonProps) {
+    text,
+    tipo = "primary",
+    onClick
+}: IButtonProps ) {
     return (
         <S.Button
-            fullWidth
-            {...props}
+            onClick={onClick}
+            tipo={tipo}
         >
-            {children}
+            {text}
         </S.Button>
     );
 }
