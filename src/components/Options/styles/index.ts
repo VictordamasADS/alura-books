@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Section = styled.section`
+export const Section = styled.section<{ select: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9,9 +9,7 @@ export const Section = styled.section`
     width: 10rem;
     gap: 0.2rem;
     padding: 2rem;
-    background: linear-gradient(
-        97.54deg, #002F52 53.49%, #326589 165.37%
-    );
+    background: ${props => props.select ? "#000" : "linear-gradient(97.54deg, #002F52 53.49%, #326589 165.37%)"};
     border-radius: 0.8rem;
     border: #002F52;
     cursor: pointer;

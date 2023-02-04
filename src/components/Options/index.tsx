@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@mui/material";
-import { FC } from "react";
+import { FC, useState } from "react";
 import * as S from "./styles";
 
 interface IOptions {
@@ -11,11 +11,27 @@ interface IOptions {
 
 interface IOptionsProps {
     options: IOptions[];
+    valorPadrao?: IOptions | null;
+    onChange?: (opcao: IOptions) => void; 
 }
 
 export const Options: FC<IOptionsProps> = ({
-    options
+    options,
+    onChange,
+    valorPadrao
 }) => {
+    const [select, setSelect] = useState<IOptions | null>(valorPadrao || null);
+
+    const handleSelect = (values: IOptions) => {
+        setSelect(values)
+
+        if(onChange) {
+            onChange(values)
+        }
+
+        console.log(values)
+    }
+
     return (
         <Grid
             item 
@@ -31,7 +47,11 @@ export const Options: FC<IOptionsProps> = ({
             }}
         >
             {options.map(value => (
-                <S.Section key={value.id}>
+                <S.Section 
+                    onClick={() => handleSelect(value)}
+                    key={value.id} 
+                    select={select?.id === value.id}
+                >
                     <Typography>
                         {value.titulo}
                     </Typography>

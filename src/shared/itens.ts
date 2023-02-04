@@ -19,5 +19,14 @@ export const itens = {
                 ".mob"
             ]
         },
+        {
+            id: 3,
+            titulo: "Business book",
+            preco: "98,00",
+            formato: [
+                ".pdf",
+                ".txt"
+            ]
+        },
     ]
 }
