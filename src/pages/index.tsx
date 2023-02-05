@@ -1,18 +1,27 @@
-import { Grid } from "@mui/material"
-import Cards from "../components/Cards"
-import { Options } from "../components/Options"
-import { itens } from "../shared/itens"
+import { useForm } from "react-hook-form";
+import { Options } from "../components/Options";
+import { itens } from "../shared/itens";
+import { IOptions } from "../shared/types";
 
 const Home = () => {
-    return (
-        <Grid
-            container
-            sx={{ display: "flex", alignItems: "flex-start", gap: "2rem" }}
-        >
-            <Cards />
+    const {
+        handleSubmit,
+        getValues,
+        control,
+    } = useForm<IOptions>();
 
-            <Options options={itens.options} />
-        </Grid>
+    const onSubmit = async (values: IOptions) => {
+        
+        await console.log(values.options)
+    }
+
+    return (
+        <Options 
+            handleSubmit={handleSubmit(onSubmit)}
+            itens={itens} 
+            getValues={getValues}
+            control={control}
+        />
     )
 }
 
