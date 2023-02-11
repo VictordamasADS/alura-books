@@ -5,21 +5,19 @@ import { IOptions } from "../shared/types";
 
 const Home = () => {
     const {
-        handleSubmit,
-        getValues,
         control,
+        trigger
     } = useForm<IOptions>();
 
-    const onSubmit = async (values: IOptions) => {
-        
-        await console.log(values.options)
+    const updateCarrinho = (values: any) => {    
+        console.log(values)
     }
 
     return (
         <Options 
-            handleSubmit={handleSubmit(onSubmit)}
+            updateCarrinho={updateCarrinho}
             itens={itens} 
-            getValues={getValues}
+            trigger={trigger}
             control={control}
         />
     )

@@ -1,47 +1,44 @@
 import { Box, Grid, Rating, Typography } from "@mui/material";
-import { FC, useState } from "react";
+import { FC } from "react";
 import {
-    Control,
-    useFieldArray,
-    UseFormGetValues
+    Control, useFieldArray, UseFormTrigger
 } from "react-hook-form";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { IBooks, IOptions } from "../../shared/types";
+import { IOptions } from "../../shared/types";
 import * as S from "./styles";
 
 interface IOptionsProps {
-    handleSubmit: (values: any) => void;
+    updateCarrinho: (values: any) => void;
     control: Control<IOptions, any>;
-    getValues: UseFormGetValues<IOptions>;
-    valorPadrao?: IBooks | null;
+    trigger: UseFormTrigger<IOptions>;
     itens: IOptions;
 }
 
 export const Options: FC<IOptionsProps> = ({
     control,
     itens,
-    handleSubmit,
-    valorPadrao,
-    getValues
+    updateCarrinho,
+    trigger
 }) => {
-    const [options, setOptions] = useState<IBooks | null>(valorPadrao || null)
-
+ 
     const {
-        fields: booksFields,
-        append: booksAppend,
-        update: booksUpdate,
-        remove: booksRemove,
+        fields: carrinhoFields,
+        append: carrinhoAppend,
+        remove: carrinhoRemove,
+        prepend: carrinhoPrepend,
+        update: carrinhoUpdate,
     } = useFieldArray({
         control,
         name: "options",
     });
 
-    const handleSelect = (value: IBooks) => {
-        setOptions(value)
+    const handleUpdate = () => {
+        if(carrinhoFields.length) {
+            updateCarrinho(carrinhoFields)
+        }
     }
-
+    
     return (
-        <S.FormLayout onSubmit={handleSubmit(options)}>
             <Grid
                 container
                 spacing={3}
@@ -62,25 +59,18 @@ export const Options: FC<IOptionsProps> = ({
                     <Typography fontWeight="600" fontFamily="cursive" fontSize="2.2rem">Escolha o Livro</Typography>
                     {itens.options.map(
                         (value, index) => (
-                        <S.Section                    
-                            key={value.id} 
-                            select={value.id}
-                            onClick={() => { 
-                                handleSelect(value)
-
-                                booksUpdate(
-                                    index,
-                                    getValues(`options.${index}`),
-                                );
-                        
-                                booksAppend({
-                                    id: value.id,
-                                    titulo: value.titulo,
-                                    estrelas: value.estrelas,
-                                    formato: value.formato,
-                                    preco: value.preco
-                                })
-                            }}
+                        <S.Section        
+                            onClick={async () => { 
+                                const carrinhoValues = await trigger([
+                                    `options`
+                                ])
+                                
+                                if(carrinhoValues) {
+                                    carrinhoUpdate(index, value)
+                                    handleUpdate()
+                                }
+                            }}         
+                            key={value.id}        
                         >
                             <Typography fontFamily="serif">
                                 {value.titulo}
@@ -126,8 +116,8 @@ export const Options: FC<IOptionsProps> = ({
                             <Typography fontWeight="600">Meu Carrinho</Typography>
                             <BsFillCartCheckFill fontSize="2rem" /> 
                         </Box>
-                            
-                        {booksFields.map(book => (
+                        
+                        {carrinhoFields.map(value => (
                             <Box
                                 sx={{
                                     display: "flex",
@@ -138,7 +128,7 @@ export const Options: FC<IOptionsProps> = ({
                                     padding: "1rem",
                                     borderRadius: "1rem"
                                 }}
-                                key={book.id}
+                                key={value?.id}
                             >
                                 <Box
                                     sx={{
@@ -149,7 +139,7 @@ export const Options: FC<IOptionsProps> = ({
                                     }}
                                 >
                                     <Typography fontWeight="600" fontSize="0.8rem">Título do livro: </Typography>
-                                    <Typography fontSize="0.8rem">{book?.titulo}</Typography>
+                                    <Typography fontSize="0.8rem">{value?.titulo}</Typography>
                                 </Box>
 
                                 <Box
@@ -161,7 +151,7 @@ export const Options: FC<IOptionsProps> = ({
                                     }}
                                 >
                                     <Typography fontWeight="600" fontSize="0.8rem">Formatos: </Typography>
-                                    <Typography fontSize="0.8rem">{book?.formato?.join(", ")}</Typography>
+                                    <Typography fontSize="0.8rem">{value?.formato?.join(", ")}</Typography>
                                 </Box>
 
                                 <Box
@@ -175,7 +165,7 @@ export const Options: FC<IOptionsProps> = ({
                                     <Typography fontWeight="600" fontSize="0.8rem">Avaliação: </Typography>
                                     <Rating 
                                         name="estrelas" 
-                                        value={book.estrelas}
+                                        value={value?.estrelas}
                                         readOnly 
                                     />
                                 </Box>
@@ -189,13 +179,12 @@ export const Options: FC<IOptionsProps> = ({
                                     }}
                                 >
                                     <Typography fontWeight="600" fontSize="0.8rem">Preço: </Typography>
-                                    <Typography fontSize="0.8rem">R${book.preco}</Typography>
+                                    <Typography fontSize="0.8rem">R${value?.preco}</Typography>
                                 </Box>
                             </Box>
                         ))}
                     </S.MenuCar>
                 </Grid>
             </Grid>
-        </S.FormLayout>
     )
 }
