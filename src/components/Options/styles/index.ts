@@ -10,13 +10,13 @@ export const Section = styled.section`
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     gap: 0.2rem;
     padding: 2rem;
-    background: linear-gradient(97.54deg, #002F52 53.49%, #326589 165.37%);
+    background: #000;
     border-radius: 0.8rem;
     border: #002F52;
     cursor: pointer;
 
     &:hover {
-        opacity: 0.9;
+        opacity: 0.5;
     }
 `
 
@@ -50,17 +50,19 @@ export const FormLayout = styled.form`
 export const ViewCar = styled.div`
     display: flex;
     position: absolute;
-    right: 1rem;
-    top: 2rem;
+    right: 0.7rem;
+    top: 0.7rem;
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    width: 1.5rem;
+    width: 2rem;
     padding: 1rem;
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
     @media screen and (min-width: 600px) {
         width: 2.5rem;
+        top: 2rem;
+        right: 2rem;
     }
 `

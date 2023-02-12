@@ -5,8 +5,10 @@ import {
 } from "react-hook-form";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCartCheck, BsCartCheckFill, BsFillCartCheckFill } from "react-icons/bs";
+import { GiBatMask } from "react-icons/gi";
 import { IOptions } from "../../shared/types";
 import StarRating from "../StarRating";
+import Tooltip from "../Tooltip";
 import * as S from "./styles";
 
 interface IOptionsProps {
@@ -50,7 +52,8 @@ export const Options: FC<IOptionsProps> = ({
                 sx={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    mt: "2rem"
                 }}
             >
                 <Typography fontWeight="600" fontSize={smDown ? "1.6rem" : "2rem"}>Escolha o livro</Typography>
@@ -66,11 +69,11 @@ export const Options: FC<IOptionsProps> = ({
                     position: "relative",
                     alignItems: "center",
                     justifyContent: smDown ? "flex-start" : "center",
-                    gap: "1rem"
+                    gap: "1rem",
+                    mt: "2rem"
                 }}
             >
-                {itens.options.map(
-                    (value) => (
+                {itens.options.map((value: any) => (
                     <S.Section        
                         onClick={async () => {                                    
                             await carrinhoUpdate(index, value)
@@ -97,6 +100,15 @@ export const Options: FC<IOptionsProps> = ({
                             value={value.estrelas}
                             readOnly 
                         />
+
+                        <Box 
+                            sx={{
+                                display: "flex",
+                                mt: "2rem",
+                            }}
+                        >
+                            <GiBatMask color="#FFF" fontSize="2rem" />
+                        </Box>
                     </S.Section>
                 ))}  
             </Grid>
@@ -106,9 +118,17 @@ export const Options: FC<IOptionsProps> = ({
                     onClick={() => setShow(true)}
                 >
                     {carrinhoFields.length ? (
-                        <BsCartCheckFill fontSize="2.2rem" />
+                        <Tooltip 
+                            icon={<BsCartCheckFill fontSize="2rem" color="#000"/>}
+                            title="Visualizar Carrinho"
+                            position="left"
+                        />
                     ) : (
-                        <BsCartCheck fontSize="2.2rem" />
+                        <Tooltip 
+                            icon={<BsCartCheck fontSize="2rem" color="#000"/>}
+                            title="Visualizar Carrinho"
+                            position="left"
+                        />
                     )}
                     
                     <Box
@@ -117,12 +137,12 @@ export const Options: FC<IOptionsProps> = ({
                             background: "red",
                             position: "absolute",
                             color: "white",
-                            width: "1rem",
-                            height: "1.5rem",
+                            width: "1.2rem",
+                            height: "1.35rem",
                             alignItems: "center",
                             justifyContent: "center",
                             borderRadius: "50%",
-                            margin: "-20px -20px 0px 0px"
+                            margin: "-27px -27px 0px 0px"
                         }}
                     >
                         {carrinhoFields.length}
@@ -155,17 +175,23 @@ export const Options: FC<IOptionsProps> = ({
                         <Box
                             sx={{
                                 display: "flex",
-                                justifyContent: "flex-end",
-                                cursor: "pointer"
+                                justifyContent: "flex-end"
                             }}
-                            onClick={() => setShow(false)}
                         >
-                            <AiOutlineClose fontSize="1.4rem" />
+                            <Tooltip 
+                                icon={<AiOutlineClose fontSize="1rem" color="#000"/>}
+                                title="Fechar"
+                                position="left"
+                                onClick={() => setShow(false)}
+                            />
                         </Box>
                         <Box 
                             sx={{ 
                                 display: "flex", 
                                 alignItems: "center",
+                                backgroundColor: "#f8f8f8",
+                                padding: "1rem",
+                                boxShadow: "rgba(0, 0, 0, 0.16) 0px 1px 4px",
                                 justifyContent: "center",
                                 flexDirection: "row", 
                                 gap: "0.2rem" 
@@ -174,9 +200,9 @@ export const Options: FC<IOptionsProps> = ({
                             <BsFillCartCheckFill fontSize="1.6rem" /> 
                         </Box>
                     </Box>
-                    
+
                     {carrinhoFields.map(
-                        (value, key) => (
+                        (value, key) => (    
                         <Box
                             sx={{
                                 display: "flex",
@@ -199,7 +225,7 @@ export const Options: FC<IOptionsProps> = ({
                                 }}
                                 onClick={async () => {
                                     await carrinhoRemove(
-                                        key
+                                        key,
                                     )
 
                                     setIndex(index - 1)

@@ -4,7 +4,7 @@ export const itens = {
             id: 1,
             titulo: "Batman - A piada mortal",
             estrelas: 4,
-            preco: "100,00",
+            preco: "67,50",
             formato: [
                 ".pdf",
                 "e.pub",
@@ -24,7 +24,7 @@ export const itens = {
         {
             id: 3,
             titulo: "Batman - O Cavaleiro das trevas",
-            preco: "98,00",
+            preco: "92,00",
             estrelas: 5,
             formato: [
                 ".pdf",
@@ -33,8 +33,8 @@ export const itens = {
         },
         {
             id: 4,
-            titulo: "Batman - O Cavaleiro das trevas ressurge",
-            preco: "89,00",
+            titulo: "Batman - Ano um (Frank Miller)",
+            preco: "89,50",
             estrelas: 5,
             formato: [
                 ".pdf",
