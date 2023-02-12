@@ -1,42 +1,39 @@
-import { Box, Grid, Rating, Typography } from "@mui/material";
-import { FC } from "react";
+import { Box, Grid, Rating, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { FC, useState } from "react";
 import {
-    Control, useFieldArray, UseFormTrigger
+    Control, useFieldArray, UseFormGetValues
 } from "react-hook-form";
-import { BsFillCartCheckFill } from "react-icons/bs";
+import { AiOutlineClose } from "react-icons/ai";
+import { BsCartCheck, BsFillCartCheckFill } from "react-icons/bs";
 import { IOptions } from "../../shared/types";
 import * as S from "./styles";
 
 interface IOptionsProps {
     updateCarrinho: (values: any) => void;
     control: Control<IOptions, any>;
-    trigger: UseFormTrigger<IOptions>;
+    getValues: UseFormGetValues<IOptions>;
     itens: IOptions;
 }
 
 export const Options: FC<IOptionsProps> = ({
     control,
     itens,
+    getValues,
     updateCarrinho,
-    trigger
 }) => {
- 
+    const [index, setIndex] = useState(0);
+    const [show, setShow] = useState(false);
+    const theme = useTheme();
+    const smDown = useMediaQuery(theme.breakpoints.down("sm"));
+
     const {
         fields: carrinhoFields,
-        append: carrinhoAppend,
         remove: carrinhoRemove,
-        prepend: carrinhoPrepend,
         update: carrinhoUpdate,
     } = useFieldArray({
         control,
         name: "options",
     });
-
-    const handleUpdate = () => {
-        if(carrinhoFields.length) {
-            updateCarrinho(carrinhoFields)
-        }
-    }
     
     return (
             <Grid
@@ -52,23 +49,26 @@ export const Options: FC<IOptionsProps> = ({
                     sx={{
                         display: "flex",
                         flexDirection: "column",
+                        position: "relative",
                         alignItems: "center",
-                        gap: "2rem"
+                        gap: "1rem"
                     }}
                 >
-                    <Typography fontWeight="600" fontFamily="cursive" fontSize="2.2rem">Escolha o Livro</Typography>
+                    <Typography 
+                        fontWeight="600" 
+                        fontFamily="cursive" 
+                        fontSize={smDown ? "2rem" : "1.6rem"}
+                    >
+                        Escolha o Livro
+                    </Typography>
                     {itens.options.map(
-                        (value, index) => (
+                        (value) => (
                         <S.Section        
-                            onClick={async () => { 
-                                const carrinhoValues = await trigger([
-                                    `options`
-                                ])
-                                
-                                if(carrinhoValues) {
-                                    carrinhoUpdate(index, value)
-                                    handleUpdate()
-                                }
+                            onClick={async () => {                                    
+                                await carrinhoUpdate(index, value)
+                                    
+                                updateCarrinho(getValues(`options`))
+                                setIndex(index + 1)
                             }}         
                             key={value.id}        
                         >
@@ -93,13 +93,39 @@ export const Options: FC<IOptionsProps> = ({
                     ))}  
                 </Grid>
 
+                {!show && (
+                    <S.ViewCar
+                        onClick={() => setShow(true)}
+                    >
+                        <BsCartCheck fontSize="2.2rem" />
+                        <Box
+                            sx={{
+                                display: "flex",
+                                background: "red",
+                                position: "absolute",
+                                color: "white",
+                                width: "0.35rem",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                borderRadius: "50%",
+                                padding: "0.45rem",
+                                margin: "-20px -20px 0px 0px"
+                            }}
+                        >
+                            {carrinhoFields.length}
+                        </Box>
+                    </S.ViewCar>
+                )}
+
                 <Grid
                     item
                     xs={12}
                     md={2}
                     sm={12}
                     sx={{
-                        display: "flex",
+                        display: show ? "flex" : "none",
+                        right: "0",
+                        position: "absolute",
                         flexDirection: "column",
                         gap: "1rem"
                     }}      
@@ -108,16 +134,36 @@ export const Options: FC<IOptionsProps> = ({
                         <Box
                             sx={{
                                 display: "flex",
-                                alignItems: "center",
-                                flexDirection: "row",
-                                gap: "0.5rem"
+                                width: "100%",
+                                gap: "1rem",
+                                flexDirection: "column",
                             }}
                             >
-                            <Typography fontWeight="600">Meu Carrinho</Typography>
-                            <BsFillCartCheckFill fontSize="2rem" /> 
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                    cursor: "pointer"
+                                }}
+                                onClick={() => setShow(false)}
+                            >
+                                <AiOutlineClose fontSize="1.4rem" />
+                            </Box>
+                            <Box 
+                                sx={{ 
+                                    display: "flex", 
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    flexDirection: "row", 
+                                    gap: "0.2rem" 
+                                }}>
+                                <Typography fontWeight="600">Meu Carrinho</Typography>
+                                <BsFillCartCheckFill fontSize="2rem" /> 
+                            </Box>
                         </Box>
                         
-                        {carrinhoFields.map(value => (
+                        {carrinhoFields.map(
+                            (value, key) => (
                             <Box
                                 sx={{
                                     display: "flex",
@@ -130,6 +176,23 @@ export const Options: FC<IOptionsProps> = ({
                                 }}
                                 key={value?.id}
                             >
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        width: "100%",
+                                        justifyContent: "flex-end",
+                                        cursor: "pointer"
+                                    }}
+                                    onClick={async () => {
+                                        await carrinhoRemove(
+                                            key
+                                        )
+
+                                        setIndex(index - 1)
+                                    }}
+                                >
+                                    <AiOutlineClose />
+                                </Box>
                                 <Box
                                     sx={{
                                         display: "flex",

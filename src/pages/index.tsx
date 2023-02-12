@@ -6,7 +6,7 @@ import { IOptions } from "../shared/types";
 const Home = () => {
     const {
         control,
-        trigger
+        getValues
     } = useForm<IOptions>();
 
     const updateCarrinho = (values: any) => {    
@@ -16,8 +16,8 @@ const Home = () => {
     return (
         <Options 
             updateCarrinho={updateCarrinho}
+            getValues={getValues}
             itens={itens} 
-            trigger={trigger}
             control={control}
         />
     )
