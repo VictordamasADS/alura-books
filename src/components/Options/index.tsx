@@ -1,4 +1,4 @@
-import { Box, Grid, Rating, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 import {
     Control, useFieldArray, UseFormGetValues
@@ -6,6 +6,7 @@ import {
 import { AiOutlineClose } from "react-icons/ai";
 import { BsCartCheck, BsCartCheckFill, BsFillCartCheckFill } from "react-icons/bs";
 import { IOptions } from "../../shared/types";
+import StarRating from "../StarRating";
 import * as S from "./styles";
 
 interface IOptionsProps {
@@ -91,7 +92,7 @@ export const Options: FC<IOptionsProps> = ({
                             {value.formato.join(", ")}
                         </Typography>
 
-                        <Rating 
+                        <StarRating 
                             name="estrelas" 
                             value={value.estrelas}
                             readOnly 
@@ -170,7 +171,7 @@ export const Options: FC<IOptionsProps> = ({
                                 gap: "0.2rem" 
                             }}>
                             <Typography fontWeight="600">Meu Carrinho</Typography>
-                            <BsFillCartCheckFill fontSize="2rem" /> 
+                            <BsFillCartCheckFill fontSize="1.6rem" /> 
                         </Box>
                     </Box>
                     
@@ -239,7 +240,7 @@ export const Options: FC<IOptionsProps> = ({
                                 }}
                             >
                                 <Typography fontWeight="600" fontSize="0.8rem">Avaliação:</Typography>
-                                <Rating 
+                                <StarRating 
                                     name="estrelas" 
                                     value={value?.estrelas}
                                     readOnly 
