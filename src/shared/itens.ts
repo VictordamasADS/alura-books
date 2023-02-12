@@ -2,8 +2,8 @@ export const itens = {
     options: [
         {
             id: 1,
-            titulo: "E-book",
-            estrelas: 3,
+            titulo: "Batman - A piada mortal",
+            estrelas: 4,
             preco: "100,00",
             formato: [
                 ".pdf",
@@ -13,7 +13,7 @@ export const itens = {
         },
         {
             id: 2,
-            titulo: "History Book",
+            titulo: "Batman - O longo dia das bruxas",
             preco: "79,00",
             estrelas: 4,
             formato: [
@@ -23,12 +23,23 @@ export const itens = {
         },
         {
             id: 3,
-            titulo: "Business book",
+            titulo: "Batman - O Cavaleiro das trevas",
             preco: "98,00",
             estrelas: 5,
             formato: [
                 ".pdf",
                 ".txt"
+            ]
+        },
+        {
+            id: 4,
+            titulo: "Batman - O Cavaleiro das trevas ressurge",
+            preco: "89,00",
+            estrelas: 5,
+            formato: [
+                ".pdf",
+                ".txt",
+                ".doc"
             ]
         },
     ]

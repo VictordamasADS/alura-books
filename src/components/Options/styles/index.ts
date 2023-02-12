@@ -30,7 +30,7 @@ export const MenuCar = styled.div`
     gap: 1rem;
     overflow: hidden;
     overflow-y: scroll;
-    height: 95vh;
+    height: 100vh;
 `
 
 export const Input = styled.input`
@@ -55,8 +55,12 @@ export const ViewCar = styled.div`
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    width: 2rem;
+    width: 1.5rem;
     padding: 1rem;
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    @media screen and (min-width: 600px) {
+        width: 2.5rem;
+    }
 `
